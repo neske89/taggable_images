@@ -19,6 +19,18 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function save(string $provider, string $tags, string $filename):int
+    {
+        $image = new Image();
+        $image->setProvider($provider);
+        $image->setTags($tags);
+        $image->setFilename($filename);
+
+        $this->getEntityManager()->persist($image);
+        $this->getEntityManager()->flush();
+        return $image->getId();
+    }
+
     // /**
     //  * @return Image[] Returns an array of Image objects
     //  */

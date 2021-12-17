@@ -27,10 +27,10 @@ class DownloadImageService extends ImageService
     }
 
 
-    public function saveToFile($path): void
+    public function saveToFile($destination): void
     {
        $content = $this->imageContent();
-        $fp = fopen($path, 'wb');
+        $fp = fopen($destination, 'wb');
         fwrite($fp, $content);
         fclose($fp);
     }

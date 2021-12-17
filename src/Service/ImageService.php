@@ -13,7 +13,7 @@ abstract class ImageService implements ImageServiceInterface
     private string $imagesDir;
 
     private SluggerInterface $slugger;
-    private FileSystemService $filesystemService;
+    protected FileSystemService $filesystemService;
 
     /**
      * ImageService constructor.
@@ -29,7 +29,7 @@ abstract class ImageService implements ImageServiceInterface
     {
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         $filename = pathinfo($filePath, PATHINFO_FILENAME);
-        return $this->slugger->slug($filename) . '-' . uniqid('image', true) . '.' . $extension;
+        return $this->slugger->slug($filename) . '-' . uniqid('image_', true) . '.' . $extension;
     }
 
     private function path(string $provider, string $name): string
@@ -44,6 +44,7 @@ abstract class ImageService implements ImageServiceInterface
         $this->saveToFile($imageFilePath);
         return $imageFilePath;
     }
+
 
     abstract public function saveToFile($path):void;
 

@@ -27,6 +27,6 @@ class ImagesController extends AbstractController
     {
         $command = new SaveImageCommand($request->getProvider(),$request->getTags(),$request->getUrl(),$request->getImage());
         $this->commandBus->dispatch($command);
-        return $this->json(['result'=>"Image from url {$request->getUrl()} saved."])->setStatusCode(201);
+        return $this->json(['result'=> 'Image saved.'])->setStatusCode(201);
     }
 }

@@ -33,7 +33,7 @@ class Image
     /**
      * @ORM\Column(type="text")
      */
-    private array $tags;
+    private string $tags;
 
     public function getId(): ?int
     {

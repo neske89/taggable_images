@@ -25,21 +25,39 @@ class SaveImageCommandHandler implements CommandHandler
 
     public function __invoke(SaveImageCommand $command): void
     {
+        $imageFilePath = 'a';
+        $id = null;
+        try {
+            $originFilePath = null;
+            if ($command->getUrl() !== null) {
 
-        $filePath = null;
-        if ($command->getUrl() !== null) {
-
-            $this->imageService = new DownloadImageService($command->getUrl());
-            $filePath = $command->getUrl();
+                $this->imageService = new DownloadImageService($command->getUrl());
+                $originFilePath = $command->getUrl();
+            } else if ($command->getImage() !== null) {
+                $this->imageService = new UploadImageService($command->getImage());
+                $originFilePath = $command->getImage()->getClientOriginalName();
+            }
+            $imageFilePath = $this->imageService->save($command->getProvider(), $originFilePath);
+            $fileName = pathinfo($imageFilePath,PATHINFO_FILENAME) .'.'. pathinfo($imageFilePath,PATHINFO_EXTENSION);
+            $tags = implode(' ',$command->getTags());
+            $id = $this->imageRepository->save($command->getProvider(),$tags,$fileName);
         }
-        else if ($command->getImage() !== null) {
-            $this->imageService = new UploadImageService($command->getImage());
-            $filePath = $command->getImage()->getClientOriginalName();
+        //delete file if there were any issues
+            //ToDo: Provide more specified exceptions
+        catch (\Exception $e) {
+            if ($imageFilePath && file_exists($imageFilePath)) {
+                unlink($imageFilePath);
+            }
+            //pass exception further to stack
+            throw $e;
         }
-        $imageFilePath = $this->imageService->save($command->getProvider(),$filePath);
-
-        dd($imageFilePath);
-
-
+        finally  {
+            //another check if exception has been caught deeper in the stack
+            if (!$id) {
+                if ($imageFilePath && file_exists($imageFilePath)) {
+                    unlink($imageFilePath);
+                }
+            }
+        }
     }
 }

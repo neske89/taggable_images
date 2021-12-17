@@ -22,6 +22,10 @@ class FileSystemService
         $this->filesystem->mkdir($dirPath);
     }
 
+    public function copy(string $origin,string $destination):void {
+        $this->filesystem->copy($origin,$destination);
+    }
+
     //ToDo: handle better
     public function rootPath():string {
         return ROOT_DIR;
