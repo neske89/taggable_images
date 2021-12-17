@@ -1,0 +1,18 @@
+# /config/packages/messenger.yaml
+
+framework:
+  messenger:
+    default_bus: command.bus
+
+    buses:
+      command.bus:
+      query.bus: ~
+
+    transports:
+      sync: 'sync://'
+      #async: '%env(MESSENGER_TRANSPORT_DSN)%'
+
+    routing:
+    #'App\Command\BuyItem': sync
+    #'App\Command\SellItem': async
+    #'App\Query\ListCartItems': sync
