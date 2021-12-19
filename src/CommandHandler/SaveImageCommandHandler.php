@@ -7,9 +7,9 @@ namespace App\CommandHandler;
 use App\Command\SaveImageCommand;
 use App\Core\CQRS\Domain\CommandHandler;
 use App\Repository\ImageRepository;
-use App\Service\DownloadImageService;
+use App\Service\DownloadImageStoreService;
 use App\Service\ImageServiceInterface;
-use App\Service\UploadImageService;
+use App\Service\UploadImageStoreService;
 
 class SaveImageCommandHandler implements CommandHandler
 {
@@ -31,15 +31,16 @@ class SaveImageCommandHandler implements CommandHandler
             $originFilePath = null;
             if ($command->getUrl() !== null) {
 
-                $this->imageService = new DownloadImageService($command->getUrl());
+                $this->imageService = new DownloadImageStoreService($command->getUrl());
                 $originFilePath = $command->getUrl();
             } else if ($command->getImage() !== null) {
-                $this->imageService = new UploadImageService($command->getImage());
+                $this->imageService = new UploadImageStoreService($command->getImage());
                 $originFilePath = $command->getImage()->getClientOriginalName();
             }
             $imageFilePath = $this->imageService->save($command->getProvider(), $originFilePath);
             $fileName = pathinfo($imageFilePath,PATHINFO_FILENAME) .'.'. pathinfo($imageFilePath,PATHINFO_EXTENSION);
-            $tags = implode(' ',$command->getTags());
+            $tags = implode('  ',$command->getTags());
+            $tags = ' ' . $tags . ' ';
             $id = $this->imageRepository->save($command->getProvider(),$tags,$fileName);
         }
         //delete file if there were any issues

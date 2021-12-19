@@ -6,7 +6,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class UploadImageService extends ImageService
+class UploadImageStoreService extends ImageStoreService
 {
 
 

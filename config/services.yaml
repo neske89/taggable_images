@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
   $publicDir: '%kernel.project_dir%/public'
+  uploads: '%kernel.project_dir%/public/storage/'
 services:
   #cqrs handlers
   _instanceof:
@@ -20,6 +21,7 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     bind:
       $publicDir: '%kernel.project_dir%/public'
+      $projectURL: '%env(PROJECT_URL)%'
 
   # makes classes in src/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name

@@ -14,15 +14,14 @@ abstract class BaseRequest extends Request
 {
     protected ValidatorInterface $validator;
 
-
     public function __construct(array $query = [], array $request = [], array $attributes = [],
                                 array $cookies = [], array $files = [], array $server = [],
-                                $content = null, )
+                                $content = null)
     {
 
-        parent::__construct($query,$request,$attributes,$cookies,$files,$server,$content);
+        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
         //$this->validator = Validation::createValidator();
-        $this->validator =Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
 
         $this->populate();
 
@@ -32,21 +31,16 @@ abstract class BaseRequest extends Request
         }
     }
 
-    public function validate(array $stackedErrors = []): void
+    public function validate(array $stackedErrors = []): bool
     {
-
-        //dd($this->id);
-        //$errors= $this->validator->validateProperty($this,'id',[new Assert\NotNull()]);
-        //$validator = $this->get('validator');
-
         $errors = $this->validator->validate($this);
         $messages = ['message' => 'validation_failed', 'errors' => []];
 
-        /** @var \Symfony\Component\Validator\ConstraintViolation  */
+        /** @var \Symfony\Component\Validator\ConstraintViolation */
         foreach ($errors as $message) {
             $messages['errors'][] = [
                 'property' => $message->getPropertyPath(),
-                'value' => $message->getInvalidValue(),
+                'value' => ($message->getInvalidValue()),
                 'message' => $message->getMessage(),
             ];
         }
@@ -57,8 +51,9 @@ abstract class BaseRequest extends Request
         if (count($messages['errors']) > 0) {
             $response = new JsonResponse($messages, 201);
             $response->send();
-            exit;
+            return false;
         }
+        return true;
     }
 
     protected function populate(): void
@@ -66,18 +61,17 @@ abstract class BaseRequest extends Request
         $content = [];
 
         if (!empty($this->getContent())) {
-           $content = $this->toArray();
-        }
-        else if (!empty($this->request)) {
+            $content = $this->toArray();
+        } else if (!empty($this->request)) {
             $content = $this->request->all();
         }
-        //dd($this->toArray());
-        $params = array_merge($content,$this->files->all());
+        $params = array_merge($content, $this->files->all(), $this->query->all());
         foreach ($params as $property => $value) {
             if (property_exists($this, $property)) {
                 $this->{$property} = $value;
             }
         }
+
     }
 
     protected function autoValidateRequest(): bool

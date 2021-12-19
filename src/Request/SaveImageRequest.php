@@ -9,9 +9,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class SaveImageRequest extends BaseRequest
 {
-    #[Assert\Type('string')]
-    #[Assert\NotBlank()]
-    protected string $provider;
 
     /**
      * @return string
@@ -45,6 +42,10 @@ class SaveImageRequest extends BaseRequest
         return $this->tags;
     }
 
+    #[Assert\Type('string')]
+    #[Assert\NotBlank()]
+    protected string $provider;
+
      #[Assert\Type('string')]
      #[Assert\Url()]
      protected ?string $url;
@@ -63,7 +64,7 @@ class SaveImageRequest extends BaseRequest
          'png'
      );
 
-    public function validate(array $stackedErrors = []):void {
+    public function validate(array $stackedErrors = []):bool {
         $errors = [];
         //validate if url represents image
         if (isset($this->url)) {
@@ -82,7 +83,7 @@ class SaveImageRequest extends BaseRequest
                 'value' => 'not null',
                 'message' => 'Please supply either image or url;'];
         }
-        parent::validate($errors);
+        return parent::validate($errors);
     }
 
 

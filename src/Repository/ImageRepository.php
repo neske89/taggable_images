@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Image;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,7 +21,7 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
-    public function save(string $provider, string $tags, string $filename):int
+    public function save(string $provider, string $tags, string $filename): int
     {
         $image = new Image();
         $image->setProvider($provider);
@@ -59,4 +61,39 @@ class ImageRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function filter(?string $provider, ?array $tags, ?int $page, ?int $pageSize):array
+    {
+        $sql = 'SELECT provider,filename,tags';
+        $params = [];
+        if (!empty($tags)) {
+            $tagsSearchArray = [];
+            foreach ($tags as $key => $tag) {
+                $paramKey = "tag_{$key}";
+                $tagsSearchArray[] = "(tags like :{$paramKey})";
+                $params[$paramKey] = " %{$tag}% ";
+            }
+            $tagsSearch = implode(' + ', $tagsSearchArray);
+            $sql = "{$sql}, ({$tagsSearch}) as hits";
+        }
+        $sql = "{$sql} from images";
+        if ($provider) {
+            $sql = "{$sql} WHERE provider = :provider";
+            $params['provider'] = $provider;
+        }
+
+        if (!empty($tags)) {
+            $sql = "{$sql} having hits > 0";
+        }
+        if (!$pageSize) {
+            $pageSize = 35;
+        }
+        $startPage = $page && $page > 0 ? $page - 1 : 0;
+        $sql = "{$sql} LIMIT {$startPage},${pageSize}";
+
+
+        $connection = $this->getEntityManager()->getConnection();
+        $stmt = $connection->prepare($sql);
+        $results = $stmt->executeQuery($params);
+        return $results->fetchAllAssociative();
+    }
 }

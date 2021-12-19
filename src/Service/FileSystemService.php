@@ -35,8 +35,11 @@ class FileSystemService
         $path = $this->rootPath();
         return "{$path}/public";
     }
-    public function storagePath(): string {
+    public function uploadsPath($relative = true): string {
+        if ($relative) {
+            return '/uploads';
+        }
         $path = $this->publicPath();
-        return "{$path}/storage";
+        return "{$path}/uploads";
     }
 }

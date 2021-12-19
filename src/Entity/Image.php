@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Index;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
- * @Table(indexes={@Index(columns={"tags"}, flags={"fulltext"})})
+ * @Table(name="images",indexes={@Index(columns={"provider"})})
  */
 class Image
 {

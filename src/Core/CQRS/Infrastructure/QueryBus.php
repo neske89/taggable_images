@@ -14,9 +14,9 @@ final class QueryBus implements DomainQueryBus
         handle as handleQuery;
     }
 
-
-    public function __construct(private MessageBusInterface $queryMessageBus)
+    public function __construct(MessageBusInterface $queryBus)
     {
+        $this->messageBus = $queryBus;
     }
 
     public function handle(Query $query): mixed

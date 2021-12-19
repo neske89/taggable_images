@@ -18,8 +18,17 @@ class RequestValueResolver implements ArgumentValueResolverInterface {
      * {@inheritdoc}
      */
     public function resolve(Request $request, ArgumentMetadata $argument):iterable {
+
         $requestClass = $argument->getType();
 
-        yield forward_static_call([$requestClass, 'createFromGlobals']);
+        $factory = function(array $query, array $request, array $attributes,
+                            array $cookies, array $files, array $server, $content) use ($requestClass) {
+            return new $requestClass($query, $request, $attributes, $cookies, $files, $server, $content);
+        };
+        Request::setFactory($factory);
+
+        $req = Request::createFromGlobals();
+        $req->setSession($request->getSession());
+        yield $req;
     }
 }
