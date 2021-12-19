@@ -38,16 +38,16 @@ abstract class ImageStoreService implements ImageServiceInterface
         return "$this->imagesDir/$provider/$name";
     }
 
-    public function save(string $provider, string $filePath):string {
+    public function store(string $provider, string $filePath):string {
         $imageFileName = $this->name($filePath);
         $imageFilePath = $this->path($provider,$imageFileName);
         $this->filesystemService->ensureDirectoryExists($imageFilePath);
-        $this->saveToFile($imageFilePath);
+        $this->storeToFile($imageFilePath);
         return $imageFilePath;
     }
 
 
-    abstract public function saveToFile($path):void;
+    abstract public function storeToFile($path):void;
 
 
 }

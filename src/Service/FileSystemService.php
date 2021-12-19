@@ -19,6 +19,7 @@ class FileSystemService
     }
     public function ensureDirectoryExists($path):void {
         $dirPath = pathinfo($path, PATHINFO_DIRNAME);
+        //dd($dirPath);
         $this->filesystem->mkdir($dirPath);
     }
 
@@ -35,7 +36,7 @@ class FileSystemService
         $path = $this->rootPath();
         return "{$path}/public";
     }
-    public function uploadsPath($relative = true): string {
+    public function uploadsPath($relative = false): string {
         if ($relative) {
             return '/uploads';
         }

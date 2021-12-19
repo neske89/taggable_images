@@ -28,7 +28,9 @@ class FilterImagesQueryHandler implements QueryHandler
         $response = new FilterImagesResponseDTO();
         foreach ($results as $image) {
             $url = $this->imageService->url($image['provider'],$image['filename']);
-            $response->images[] = new FilteredImageDTO($url,$image['provider'],$image['tags'],$image['hits']);
+            //hits are counted only when tags are provided
+            $hits = $query->getTags() ? $image['hits'] : null;
+            $response->images[] = new FilteredImageDTO($url,$image['provider'],$image['tags'],$hits);
         }
         return $response;
     }

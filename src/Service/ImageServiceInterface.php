@@ -6,5 +6,5 @@ namespace App\Service;
 
 interface ImageServiceInterface
 {
-    public function saveToFile($path): void;
+    public function storeToFile($path): void;
 }

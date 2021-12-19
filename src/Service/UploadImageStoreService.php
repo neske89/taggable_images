@@ -18,7 +18,7 @@ class UploadImageStoreService extends ImageStoreService
         parent::__construct();
     }
 
-    public function saveToFile($destination):void
+    public function storeToFile($destination):void
     {
         $this->filesystemService->copy($this->source->getRealPath(),$destination);
     }

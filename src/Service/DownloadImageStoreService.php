@@ -27,7 +27,7 @@ class DownloadImageStoreService extends ImageStoreService
     }
 
 
-    public function saveToFile($destination): void
+    public function storeToFile($destination): void
     {
        $content = $this->imageContent();
         $fp = fopen($destination, 'wb');

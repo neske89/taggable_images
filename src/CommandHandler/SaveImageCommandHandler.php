@@ -37,7 +37,7 @@ class SaveImageCommandHandler implements CommandHandler
                 $this->imageService = new UploadImageStoreService($command->getImage());
                 $originFilePath = $command->getImage()->getClientOriginalName();
             }
-            $imageFilePath = $this->imageService->save($command->getProvider(), $originFilePath);
+            $imageFilePath = $this->imageService->store($command->getProvider(), $originFilePath);
             $fileName = pathinfo($imageFilePath,PATHINFO_FILENAME) .'.'. pathinfo($imageFilePath,PATHINFO_EXTENSION);
             $tags = implode('  ',$command->getTags());
             $tags = ' ' . $tags . ' ';

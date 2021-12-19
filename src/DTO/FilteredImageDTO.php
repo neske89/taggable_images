@@ -8,7 +8,7 @@ class FilteredImageDTO
 {
     public string $url;
     public string $provider;
-    public int $hits;
+    public ?int $hits;
     public array $tags;
 
     /**
@@ -17,7 +17,7 @@ class FilteredImageDTO
      * @param string $provider
      * @param string $tags
      */
-    public function __construct(string $url, string $provider, string $tags, int $hits)
+    public function __construct(string $url, string $provider, string $tags, ?int $hits)
     {
         $this->url = $url;
         $this->provider = $provider;
