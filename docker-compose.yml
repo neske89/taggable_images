@@ -44,7 +44,7 @@ services:
     depends_on:
       - mysql
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: ${DATABASE_HOST}
       PMA_PORT: 3306
       PMA_USER: ${MYSQL_USER}
       PMA_PASSWORD: ${MYSQL_PASSWORD}
