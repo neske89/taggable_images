@@ -61,7 +61,7 @@ class ImageRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function filter(?string $provider, ?array $tags, ?int $page, ?int $pageSize):array
+    public function filter(?string $provider, ?array $tags, ?int $page, ?int $pageSize,$relevance = false):array
     {
         $sql = 'SELECT provider,filename,tags';
         $params = [];
@@ -83,6 +83,9 @@ class ImageRepository extends ServiceEntityRepository
 
         if (!empty($tags)) {
             $sql = "{$sql} having hits > 0";
+            if ($relevance) {
+                $sql = "{$sql} ORDER BY hits desc";
+            }
         }
         if (!$pageSize) {
             $pageSize = 35;

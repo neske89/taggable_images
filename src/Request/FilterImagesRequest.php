@@ -18,6 +18,10 @@ class FilterImagesRequest extends BaseRequest
     #[Assert\Type('int')]
     protected ?int $pageSize;
 
+    #[Assert\Type('bool')]
+    protected ?bool $relevance;
+
+
     /**
      * @return string
      */
@@ -50,4 +54,14 @@ class FilterImagesRequest extends BaseRequest
         return isset($this->pageSize) ? $this->pageSize : null;
 
     }
+
+    /**
+     * @return int|null
+     */
+    public function getRelevance(): ?int
+    {
+        return isset($this->relevance) ?$this->relevance : null;
+    }
+
+
 }

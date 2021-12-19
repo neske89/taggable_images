@@ -41,9 +41,20 @@ class FilterImagesQuery implements Query
     {
         return $this->pageSize;
     }
+
+
+    /**
+     * @return bool|null
+     */
+    public function getRelevance(): ?int
+    {
+        return $this->relevance;
+    }
+
     private ?array $tags;
     private ?int $page;
     private ?int $pageSize;
+    private ?bool $relevance;
 
     /**
      * FilterImagesQuery constructor.
@@ -52,12 +63,14 @@ class FilterImagesQuery implements Query
      * @param int|null $page
      * @param int|null $pageSize
      */
-    public function __construct(?string $provider, ?array $tags, ?int $page, ?int $pageSize)
+    public function __construct(?string $provider, ?array $tags, ?int $page, ?int $pageSize,?bool $relevance)
     {
         $this->provider = $provider;
         $this->tags = $tags;
         $this->page = $page;
         $this->pageSize = $pageSize;
+        $this->relevance = $relevance;
     }
+
 
 }

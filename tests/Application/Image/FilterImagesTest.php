@@ -26,7 +26,6 @@ class FilterImagesTest extends WebTestCase
 
         $em= self::$kernel->getContainer()->get('doctrine')->getManager();
         $purger = new ORMPurger($em);
-        // Purger mode 2 truncates, resetting autoincrements
         $purger->setPurgeMode(2);
         $purger->purge();
 

@@ -24,11 +24,11 @@ class FilterImagesQueryHandler implements QueryHandler
 
     public function __invoke(FilterImagesQuery $query): FilterImagesResponseDTO
     {
-        $results = $this->imageRepository->filter($query->getProvider(), $query->getTags(), $query->getPage(), $query->getPageSize());
+        $results = $this->imageRepository->filter($query->getProvider(), $query->getTags(), $query->getPage(), $query->getPageSize(),$query->getRelevance());
         $response = new FilterImagesResponseDTO();
         foreach ($results as $image) {
             $url = $this->imageService->url($image['provider'],$image['filename']);
-            $response->images[] = new FilteredImageDTO($url,$image['provider'],$image['tags']);
+            $response->images[] = new FilteredImageDTO($url,$image['provider'],$image['tags'],$image['hits']);
         }
         return $response;
     }

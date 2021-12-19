@@ -22,7 +22,7 @@ class ImagesController extends AbstractController
     #[Route('', name: 'images', methods: ['GET'])]
     public function index(FilterImagesRequest $request): Response
     {
-        $query = new FilterImagesQuery($request->getProvider(), $request->getTags(), $request->getPage(), $request->getPageSize());
+        $query = new FilterImagesQuery($request->getProvider(), $request->getTags(), $request->getPage(), $request->getPageSize(),$request->getRelevance());
         $res = $this->queryBus->handle($query);
         return $this->json($res);
     }
