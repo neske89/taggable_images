@@ -8,11 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="Desygner-heroku" uuid="6c33d010-b410-4a6b-99ed-facc7944c63f">
+    <data-source source="LOCAL" name="Desygner-heroku [2]" uuid="19e732b0-b388-467f-a636-b6864703e15f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
+      <remarks>fso769p9zq41syrw</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://us-cdbr-east-05.cleardb.net/</jdbc-url>
+      <jdbc-url>jdbc:mysql://l6glqt8gsx37y4hs.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
