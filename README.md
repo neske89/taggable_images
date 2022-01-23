@@ -17,11 +17,11 @@ Test should be run within desygner_task-php docker container.
 - ./vendor/bin/phpunit
 
 ### Postman collection
-Postman collection was attached to submission email. In order to use postman, user should add Postman environment with variable BASE_URL=desygner.test.  
+Postman collection was attached in project's root. In order to use postman, user should add Postman environment with variable BASE_URL=desygner.test.  
 Local file should be attached in post call.
 
 ### Notes
-- Approach with saving tags in a single field in `images table` and searching by `Like operator` was taken because results (as I concluded by researching Desygner's app) expected to return UNION between all tags.
+- Approach with saving tags in a single field in `images table` and searching by `Like operator` was taken because results expected to return UNION between all tags.
 If intersection was requested, different solution would be applied. 
 - Providing `relevance` parameter (with any value) in `Images` call will sort results based on number of tags matched in single row. This query needs further optimisation.
 - Code was tested with around 5 000 000 records in the database.
